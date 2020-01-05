@@ -2,6 +2,7 @@ module Analyser.Configuration exposing (Configuration, checkEnabled, checkProper
 
 import Dict exposing (Dict)
 import Json.Decode as JD exposing (Decoder)
+import Maybe.Extra as Maybe
 
 
 type Configuration
@@ -36,7 +37,7 @@ checkPropertyAs : Decoder a -> String -> String -> Configuration -> Maybe a
 checkPropertyAs decoder check prop (Configuration { raw }) =
     JD.decodeString (JD.maybe (JD.at [ check, prop ] decoder)) raw
         |> Result.toMaybe
-        |> Maybe.andThen identity
+        |> Maybe.join
 
 
 defaultConfiguration : Configuration
@@ -46,13 +47,7 @@ defaultConfiguration =
 
 withDefaultChecks : Dict String Bool -> Dict String Bool
 withDefaultChecks x =
-    Dict.merge
-        Dict.insert
-        (\k _ b result -> Dict.insert k b result)
-        Dict.insert
-        defaultChecks
-        x
-        Dict.empty
+    Dict.union x defaultChecks
 
 
 mergeWithDefaults : Configuration -> Configuration

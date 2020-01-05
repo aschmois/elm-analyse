@@ -20,7 +20,7 @@ checker =
     , info =
         { key = "UnnecessaryParens"
         , name = "Unnecessary Parens"
-        , description = "If you want parenthesis, then you might want to look into Lisp."
+        , description = "If you want parentheses, then you might want to look into Lisp."
         , schema =
             Schema.schema
                 |> Schema.rangeProp "range"

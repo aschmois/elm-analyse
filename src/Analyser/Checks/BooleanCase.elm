@@ -18,7 +18,7 @@ checker =
     , info =
         { key = "BooleanCase"
         , name = "Boolean Case Expression"
-        , description = "If you case over a boolean value, it maybe better to use an if expression."
+        , description = "Instead of casing over a boolean value, it may be better to use an if expression."
         , schema =
             Schema.schema
                 |> Schema.rangeProp "range"

@@ -10,7 +10,6 @@ import Analyser.Files.FileContent as FileContent
 import Analyser.Files.Types exposing (LoadedSourceFiles)
 import Analyser.Messages.Data as Data
 import Analyser.Messages.Types exposing (Message, newMessage)
-import Result.Extra
 
 
 run : CodeBase -> LoadedSourceFiles -> Configuration -> List Message
@@ -22,25 +21,22 @@ run codeBase includedSources configuration =
         failedMessages : List Message
         failedMessages =
             includedSources
-                |> List.filter (Tuple.second >> Result.Extra.isOk >> not)
                 |> List.filterMap
                     (\( source, result ) ->
                         case result of
-                            Err e ->
-                                Just ( source, e )
+                            Err _ ->
+                                Just
+                                    (newMessage
+                                        (FileContent.asFileRef source)
+                                        FileLoadFailed.checker.info.key
+                                        (Data.init
+                                            "Could not load file due to: Unexpected parse error"
+                                            |> Data.addErrorMessage "message" "Unexpected parse error"
+                                        )
+                                    )
 
                             Ok _ ->
                                 Nothing
-                    )
-                |> List.map
-                    (\( source, _ ) ->
-                        newMessage
-                            (FileContent.asFileRef source)
-                            (FileLoadFailed.checker |> .info |> .key)
-                            (Data.init
-                                "Could not load file due to: Unexpected parse error"
-                                |> Data.addErrorMessage "message" "Unexpected parse error"
-                            )
                     )
 
         inspectionMessages =

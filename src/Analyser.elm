@@ -19,7 +19,6 @@ import Elm.Version
 import Inspection
 import Json.Decode
 import Json.Encode exposing (Value)
-import Maybe.Extra as Maybe
 import Platform exposing (worker)
 import Registry exposing (Registry)
 import Time
@@ -446,9 +445,7 @@ onSourceLoadingStageMsg x stage model =
 getFileContext : String -> CodeBase -> Maybe FileContext
 getFileContext path codeBase =
     CodeBase.getFile path codeBase
-        |> Maybe.map
-            (FileContext.buildForFile (CodeBase.processContext codeBase))
-        |> Maybe.join
+        |> Maybe.andThen (FileContext.buildForFile (CodeBase.processContext codeBase))
 
 
 subscriptions : Model -> Sub Msg
@@ -473,9 +470,9 @@ subscriptions model =
             SourceLoadingStage stage ->
                 SourceLoadingStage.subscriptions stage |> Sub.map SourceLoadingStageMsg
 
-            Finished ->
-                Sub.none
-
             FixerStage stage ->
                 Fixer.subscriptions stage |> Sub.map FixerMsg
+
+            Finished ->
+                Sub.none
         ]
