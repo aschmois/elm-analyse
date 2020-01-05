@@ -26,9 +26,41 @@ foo x =
     )
 
 
+singleRedundantBoolean : ( String, String, List MessageData )
+singleRedundantBoolean =
+    ( "singleRedundantBoolean"
+    , """module Bar exposing (..)
+
+foo1 x =
+    if condition then
+        x
+
+    else
+        False
+
+
+foo2 x =
+    if condition then
+        True
+
+    else
+        x
+
+"""
+    , [ Data.init "foo"
+            |> Data.addRange "range"
+                { start = { row = 12, column = 5 }, end = { row = 17, column = 1 } }
+      , Data.init "foo"
+            |> Data.addRange "range"
+                { start = { row = 4, column = 5 }, end = { row = 11, column = 1 } }
+      ]
+    )
+
+
 all : Test
 all =
     CTU.build "Analyser.Checks.UnnecessaryLiteralBools"
         UnnecessaryLiteralBools.checker
         [ redundantBoolean
+        , singleRedundantBoolean
         ]
