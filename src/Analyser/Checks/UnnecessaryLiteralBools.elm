@@ -41,37 +41,74 @@ scan fileContext _ =
 
 
 onExpression : Node Expression -> Context -> Context
-onExpression (Node r inner) context =
+onExpression (Node r expr) context =
     let
         withMsg msg =
             (Data.init
                 (String.concat
                     [ msg
-                    , " "
+                    , " at "
                     , Range.rangeToString r
                     ]
                 )
                 |> Data.addRange "range" r
             )
                 :: context
-    in
-    case inner of
-        IfBlock (Node _ _) (Node _ (FunctionOrValue _ trueVal)) (Node _ (FunctionOrValue _ falseVal)) ->
-            case ( trueVal, falseVal ) of
-                ( "True", "True" ) ->
-                    withMsg "Replace if-block with True"
 
-                ( "True", "False" ) ->
-                    withMsg "Replace if-block with just the if-condition"
+        getLiteralBool s =
+            case s of
+                FunctionOrValue _ "True" ->
+                    Just True
 
-                ( "False", "True" ) ->
-                    withMsg "Replace if-block with just the negation of the if-condition"
-
-                ( "False", "False" ) ->
-                    withMsg "Replace if-block with False"
+                FunctionOrValue _ "False" ->
+                    Just False
 
                 _ ->
+                    Nothing
+    in
+    case expr of
+        IfBlock _ (Node _ left) (Node _ right) ->
+            case ( getLiteralBool left, getLiteralBool right ) of
+                ( Just True, Just True ) ->
+                    withMsg "Replace if-block with `True`"
+
+                ( Just True, Just False ) ->
+                    withMsg "Replace if-block with just the if-condition"
+
+                ( Just False, Just True ) ->
+                    withMsg "Replace if-block with just the negation of the if-condition"
+
+                ( Just False, Just False ) ->
+                    withMsg "Replace if-block with `False`"
+
+                ( Just True, Nothing ) ->
+                    withMsg "Replace if-block with `<condition> || <else branch>`"
+
+                ( Just False, Nothing ) ->
+                    withMsg "Replace if-block with `not <condition> && <else branch>`"
+
+                ( Nothing, Just True ) ->
+                    withMsg "Replace if-block with `not <condition> || <then branch>`"
+
+                ( Nothing, Just False ) ->
+                    withMsg "Replace if-block with `<condition> && <then branch>`"
+
+                ( Nothing, Nothing ) ->
                     context
+
+        OperatorApplication name _ (Node _ left) (Node _ right) ->
+            let
+                isValidOp =
+                    name == "==" || name == "/=" || name == "&&" || name == "||"
+
+                hasBoolOperand =
+                    getLiteralBool left /= Nothing || getLiteralBool right /= Nothing
+            in
+            if isValidOp && hasBoolOperand then
+                withMsg "Simplify expression involving a literal Bool value"
+
+            else
+                context
 
         _ ->
             context
