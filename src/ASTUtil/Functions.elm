@@ -12,12 +12,10 @@ isStatic function =
         decl =
             Node.value function.declaration
     in
-    if List.length decl.arguments > 0 then
-        False
-
-    else
-        Maybe.withDefault True <|
-            Maybe.map (Node.value >> isFunctionSignature >> not) function.signature
+    List.isEmpty decl.arguments
+        && (Maybe.withDefault True <|
+                Maybe.map (Node.value >> isFunctionSignature >> not) function.signature
+           )
 
 
 isFunctionSignature : Signature -> Bool

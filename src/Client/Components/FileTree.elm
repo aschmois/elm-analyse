@@ -126,11 +126,7 @@ view : Model -> Html Msg
 view m =
     let
         allowFile ( _, mess ) =
-            if m.hideGoodFiles then
-                List.length mess > 0
-
-            else
-                True
+            not (m.hideGoodFiles && List.isEmpty mess)
 
         asItem ( fileName, messages ) =
             Html.a

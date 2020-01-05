@@ -36,11 +36,12 @@ containsRange a b =
 
 isGte : Location -> Location -> Bool
 isGte a b =
-    if a.row > b.row then
-        True
+    case compare a.row b.row of
+        GT ->
+            True
 
-    else if a.row < b.row then
-        False
+        LT ->
+            False
 
-    else
-        a.column >= b.column
+        EQ ->
+            a.column >= b.column
