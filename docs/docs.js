@@ -8830,15 +8830,15 @@ var $author$project$ASTUtil$Inspector$inspect = F3(
 			file,
 			context);
 	});
+var $author$project$Analyser$Messages$Data$RangeV = function (a) {
+	return {$: 'RangeV', a: a};
+};
 var $author$project$Analyser$Messages$Data$MessageData = F2(
 	function (a, b) {
 		return {$: 'MessageData', a: a, b: b};
 	});
-var $author$project$Analyser$Messages$Data$RangeV = function (a) {
-	return {$: 'RangeV', a: a};
-};
-var $author$project$Analyser$Messages$Data$addRange = F3(
-	function (k, v, _v0) {
+var $author$project$Analyser$Messages$Data$addData = F4(
+	function (f, k, v, _v0) {
 		var desc = _v0.a;
 		var d = _v0.b;
 		return A2(
@@ -8847,9 +8847,10 @@ var $author$project$Analyser$Messages$Data$addRange = F3(
 			A3(
 				$elm$core$Dict$insert,
 				k,
-				$author$project$Analyser$Messages$Data$RangeV(v),
+				f(v),
 				d));
 	});
+var $author$project$Analyser$Messages$Data$addRange = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$RangeV);
 var $elm$core$List$any = F2(
 	function (isOkay, list) {
 		any:
@@ -8937,7 +8938,7 @@ var $author$project$Analyser$Messages$Schema$schema = $author$project$Analyser$M
 var $author$project$Analyser$Checks$BooleanCase$checker = {
 	check: $author$project$Analyser$Checks$BooleanCase$scan,
 	info: {
-		description: 'If you case over a boolean value, it maybe better to use an if expression.',
+		description: 'Instead of casing over a boolean value, it may be better to use an if expression.',
 		key: 'BooleanCase',
 		name: 'Boolean Case Expression',
 		schema: A2($author$project$Analyser$Messages$Schema$rangeProp, 'range', $author$project$Analyser$Messages$Schema$schema)
@@ -8955,7 +8956,7 @@ var $author$project$Analyser$Checks$DebugCrash$entryForQualifiedExpr = F2(
 		return _Utils_eq(
 			moduleName,
 			_List_fromArray(
-				['Debug'])) ? (f === 'todo') : false;
+				['Debug'])) && (f === 'todo');
 	});
 var $author$project$Analyser$Checks$DebugCrash$onExpression = F2(
 	function (_v0, context) {
@@ -9020,7 +9021,7 @@ var $author$project$Analyser$Checks$DebugLog$entryForQualifiedExpr = F2(
 		return _Utils_eq(
 			moduleName,
 			_List_fromArray(
-				['Debug'])) ? (f === 'log') : false;
+				['Debug'])) && (f === 'log');
 	});
 var $author$project$Analyser$Checks$DebugLog$onExpression = F2(
 	function (_v0, context) {
@@ -9221,35 +9222,11 @@ var $elm$core$Basics$always = F2(
 var $author$project$Analyser$Messages$Data$ModuleNameV = function (a) {
 	return {$: 'ModuleNameV', a: a};
 };
-var $author$project$Analyser$Messages$Data$addModuleName = F3(
-	function (k, v, _v0) {
-		var desc = _v0.a;
-		var d = _v0.b;
-		return A2(
-			$author$project$Analyser$Messages$Data$MessageData,
-			desc,
-			A3(
-				$elm$core$Dict$insert,
-				k,
-				$author$project$Analyser$Messages$Data$ModuleNameV(v),
-				d));
-	});
+var $author$project$Analyser$Messages$Data$addModuleName = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$ModuleNameV);
 var $author$project$Analyser$Messages$Data$RangeListV = function (a) {
 	return {$: 'RangeListV', a: a};
 };
-var $author$project$Analyser$Messages$Data$addRanges = F3(
-	function (k, v, _v0) {
-		var desc = _v0.a;
-		var d = _v0.b;
-		return A2(
-			$author$project$Analyser$Messages$Data$MessageData,
-			desc,
-			A3(
-				$elm$core$Dict$insert,
-				k,
-				$author$project$Analyser$Messages$Data$RangeListV(v),
-				d));
-	});
+var $author$project$Analyser$Messages$Data$addRanges = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$RangeListV);
 var $author$project$Analyser$Checks$DuplicateImport$buildData = function (_v0) {
 	var m = _v0.a;
 	var rs = _v0.b;
@@ -9385,19 +9362,7 @@ var $author$project$Docs$MsgDoc$duplicateImport = {
 var $author$project$Analyser$Messages$Data$VariableNameV = function (a) {
 	return {$: 'VariableNameV', a: a};
 };
-var $author$project$Analyser$Messages$Data$addVarName = F3(
-	function (k, v, _v0) {
-		var desc = _v0.a;
-		var d = _v0.b;
-		return A2(
-			$author$project$Analyser$Messages$Data$MessageData,
-			desc,
-			A3(
-				$elm$core$Dict$insert,
-				k,
-				$author$project$Analyser$Messages$Data$VariableNameV(v),
-				d));
-	});
+var $author$project$Analyser$Messages$Data$addVarName = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$VariableNameV);
 var $author$project$Analyser$Checks$DuplicateImportedVariable$asMessageData = function (_v0) {
 	var a = _v0.a;
 	var b = _v0.b;
@@ -9691,19 +9656,7 @@ var $author$project$Docs$MsgDoc$Fixed = function (a) {
 var $author$project$Analyser$Messages$Data$ErrorMessageV = function (a) {
 	return {$: 'ErrorMessageV', a: a};
 };
-var $author$project$Analyser$Messages$Data$addErrorMessage = F3(
-	function (k, v, _v0) {
-		var desc = _v0.a;
-		var d = _v0.b;
-		return A2(
-			$author$project$Analyser$Messages$Data$MessageData,
-			desc,
-			A3(
-				$elm$core$Dict$insert,
-				k,
-				$author$project$Analyser$Messages$Data$ErrorMessageV(v),
-				d));
-	});
+var $author$project$Analyser$Messages$Data$addErrorMessage = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$ErrorMessageV);
 var $author$project$Analyser$Messages$Schema$ErrorMessage = {$: 'ErrorMessage'};
 var $author$project$Analyser$Messages$Schema$errorProp = F2(
 	function (k, _v0) {
@@ -9766,6 +9719,13 @@ var $author$project$Analyser$Checks$FunctionInLet$asMessage = function (_v0) {
 						$author$project$AST$Ranges$rangeToString(range)
 					]))));
 };
+var $elm$core$List$isEmpty = function (xs) {
+	if (!xs.b) {
+		return true;
+	} else {
+		return false;
+	}
+};
 var $author$project$ASTUtil$Functions$isFunctionTypeAnnotation = function (typeAnnotation) {
 	if (typeAnnotation.$ === 'FunctionTypeAnnotation') {
 		return true;
@@ -9781,7 +9741,7 @@ var $author$project$ASTUtil$Functions$isFunctionSignature = function (_v0) {
 var $elm$core$Basics$not = _Basics_not;
 var $author$project$ASTUtil$Functions$isStatic = function (_function) {
 	var decl = $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration);
-	return ($elm$core$List$length(decl._arguments) > 0) ? false : A2(
+	return $elm$core$List$isEmpty(decl._arguments) && A2(
 		$elm$core$Maybe$withDefault,
 		true,
 		A2(
@@ -10458,6 +10418,14 @@ var $elm$json$Json$Decode$at = F2(
 		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
 	});
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
+var $elm_community$maybe_extra$Maybe$Extra$join = function (mx) {
+	if (mx.$ === 'Just') {
+		var x = mx.a;
+		return x;
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
 var $elm$json$Json$Decode$oneOf = _Json_oneOf;
 var $elm$json$Json$Decode$maybe = function (decoder) {
 	return $elm$json$Json$Decode$oneOf(
@@ -10478,9 +10446,7 @@ var $elm$core$Result$toMaybe = function (result) {
 var $author$project$Analyser$Configuration$checkPropertyAs = F4(
 	function (decoder, check, prop, _v0) {
 		var raw = _v0.a.raw;
-		return A2(
-			$elm$core$Maybe$andThen,
-			$elm$core$Basics$identity,
+		return $elm_community$maybe_extra$Maybe$Extra$join(
 			$elm$core$Result$toMaybe(
 				A2(
 					$elm$json$Json$Decode$decodeString,
@@ -11073,7 +11039,7 @@ var $author$project$Analyser$Checks$UnnecessaryParens$scan = F2(
 var $author$project$Analyser$Checks$UnnecessaryParens$checker = {
 	check: $author$project$Analyser$Checks$UnnecessaryParens$scan,
 	info: {
-		description: 'If you want parenthesis, then you might want to look into Lisp.',
+		description: 'If you want parentheses, then you might want to look into Lisp.',
 		key: 'UnnecessaryParens',
 		name: 'Unnecessary Parens',
 		schema: A2($author$project$Analyser$Messages$Schema$rangeProp, 'range', $author$project$Analyser$Messages$Schema$schema)
@@ -11202,25 +11168,55 @@ var $stil4m$elm_syntax$Elm$Syntax$Pattern$moduleNames = function (p) {
 			return _List_Nil;
 	}
 };
-var $author$project$Analyser$Checks$UnusedImport$onCase = F2(
+var $author$project$Analyser$Checks$UnusedImport$markPatternUsage = F2(
 	function (_v0, context) {
-		var _v1 = _v0.a;
-		var pattern = _v1.b;
+		var pattern = _v0.b;
 		return A3(
 			$elm$core$List$foldl,
 			$author$project$Analyser$Checks$UnusedImport$markUsage,
 			context,
 			$stil4m$elm_syntax$Elm$Syntax$Pattern$moduleNames(pattern));
 	});
+var $author$project$Analyser$Checks$UnusedImport$onCase = F2(
+	function (_v0, context) {
+		var pattern = _v0.a;
+		return A2($author$project$Analyser$Checks$UnusedImport$markPatternUsage, pattern, context);
+	});
 var $author$project$Analyser$Checks$UnusedImport$onExpression = F2(
 	function (expr, context) {
 		var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(expr);
-		if (_v0.$ === 'FunctionOrValue') {
-			var moduleName = _v0.a;
-			return A2($author$project$Analyser$Checks$UnusedImport$markUsage, moduleName, context);
-		} else {
-			return context;
+		switch (_v0.$) {
+			case 'FunctionOrValue':
+				var moduleName = _v0.a;
+				return A2($author$project$Analyser$Checks$UnusedImport$markUsage, moduleName, context);
+			case 'LetExpression':
+				var declarations = _v0.a.declarations;
+				return A3(
+					$elm$core$List$foldl,
+					function (_v1) {
+						var declaration = _v1.b;
+						if (declaration.$ === 'LetFunction') {
+							return $elm$core$Basics$identity;
+						} else {
+							var pattern = declaration.a;
+							return $author$project$Analyser$Checks$UnusedImport$markPatternUsage(pattern);
+						}
+					},
+					context,
+					declarations);
+			case 'LambdaExpression':
+				var lambda = _v0.a;
+				return A3($elm$core$List$foldl, $author$project$Analyser$Checks$UnusedImport$markPatternUsage, context, lambda.args);
+			default:
+				return context;
 		}
+	});
+var $author$project$Analyser$Checks$UnusedImport$onFunction = F2(
+	function (_v0, context) {
+		var declaration = _v0.b.declaration;
+		var _v1 = declaration;
+		var _arguments = _v1.b._arguments;
+		return A3($elm$core$List$foldl, $author$project$Analyser$Checks$UnusedImport$markPatternUsage, context, _arguments);
 	});
 var $author$project$Analyser$Checks$UnusedImport$onImport = F2(
 	function (_v0, context) {
@@ -11278,6 +11274,7 @@ var $author$project$Analyser$Checks$UnusedImport$scan = F2(
 								{
 									onCase: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onCase),
 									onExpression: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onExpression),
+									onFunction: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onFunction),
 									onTypeAnnotation: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onTypeAnnotation)
 								}),
 							fileContext.ast,
@@ -13407,79 +13404,12 @@ var $author$project$Analyser$Configuration$defaultChecks = $elm$core$Dict$fromLi
 		]));
 var $author$project$Analyser$Configuration$defaultConfiguration = $author$project$Analyser$Configuration$Configuration(
 	{checks: $author$project$Analyser$Configuration$defaultChecks, excludedPaths: _List_Nil, raw: ''});
-var $elm$core$Dict$merge = F6(
-	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
-		var stepState = F3(
-			function (rKey, rValue, _v0) {
-				stepState:
-				while (true) {
-					var list = _v0.a;
-					var result = _v0.b;
-					if (!list.b) {
-						return _Utils_Tuple2(
-							list,
-							A3(rightStep, rKey, rValue, result));
-					} else {
-						var _v2 = list.a;
-						var lKey = _v2.a;
-						var lValue = _v2.b;
-						var rest = list.b;
-						if (_Utils_cmp(lKey, rKey) < 0) {
-							var $temp$rKey = rKey,
-								$temp$rValue = rValue,
-								$temp$_v0 = _Utils_Tuple2(
-								rest,
-								A3(leftStep, lKey, lValue, result));
-							rKey = $temp$rKey;
-							rValue = $temp$rValue;
-							_v0 = $temp$_v0;
-							continue stepState;
-						} else {
-							if (_Utils_cmp(lKey, rKey) > 0) {
-								return _Utils_Tuple2(
-									list,
-									A3(rightStep, rKey, rValue, result));
-							} else {
-								return _Utils_Tuple2(
-									rest,
-									A4(bothStep, lKey, lValue, rValue, result));
-							}
-						}
-					}
-				}
-			});
-		var _v3 = A3(
-			$elm$core$Dict$foldl,
-			stepState,
-			_Utils_Tuple2(
-				$elm$core$Dict$toList(leftDict),
-				initialResult),
-			rightDict);
-		var leftovers = _v3.a;
-		var intermediateResult = _v3.b;
-		return A3(
-			$elm$core$List$foldl,
-			F2(
-				function (_v4, result) {
-					var k = _v4.a;
-					var v = _v4.b;
-					return A3(leftStep, k, v, result);
-				}),
-			intermediateResult,
-			leftovers);
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
 	});
 var $author$project$Analyser$Configuration$withDefaultChecks = function (x) {
-	return A6(
-		$elm$core$Dict$merge,
-		$elm$core$Dict$insert,
-		F4(
-			function (k, _v0, b, result) {
-				return A3($elm$core$Dict$insert, k, b, result);
-			}),
-		$elm$core$Dict$insert,
-		$author$project$Analyser$Configuration$defaultChecks,
-		x,
-		$elm$core$Dict$empty);
+	return A2($elm$core$Dict$union, x, $author$project$Analyser$Configuration$defaultChecks);
 };
 var $author$project$Analyser$Configuration$mergeWithDefaults = function (_v0) {
 	var innerConfig = _v0.a;
@@ -19896,6 +19826,22 @@ var $author$project$Docs$MsgDoc$viewArguments = function (d) {
 var $author$project$Analyser$FileRef$encode = function (fileRef) {
 	return $elm$json$Json$Encode$string(fileRef.path);
 };
+var $elm$json$Json$Encode$dict = F3(
+	function (toKey, toValue, dictionary) {
+		return _Json_wrap(
+			A3(
+				$elm$core$Dict$foldl,
+				F3(
+					function (key, value, obj) {
+						return A3(
+							_Json_addField,
+							toKey(key),
+							toValue(value),
+							obj);
+					}),
+				_Json_emptyObject(_Utils_Tuple0),
+				dictionary));
+	});
 var $elm$json$Json$Encode$int = _Json_wrap;
 var $elm$json$Json$Encode$list = F2(
 	function (func, entries) {
@@ -19961,11 +19907,7 @@ var $author$project$Analyser$Messages$Data$encode = function (_v0) {
 				$elm$json$Json$Encode$string(desc)),
 				_Utils_Tuple2(
 				'properties',
-				$elm$json$Json$Encode$object(
-					A2(
-						$elm$core$List$map,
-						$elm$core$Tuple$mapSecond($author$project$Analyser$Messages$Data$encodeDataValue),
-						$elm$core$Dict$toList(m))))
+				A3($elm$json$Json$Encode$dict, $elm$core$Basics$identity, $author$project$Analyser$Messages$Data$encodeDataValue, m))
 			]));
 };
 var $author$project$Analyser$Messages$Json$encodeMessageStatus = function (m) {

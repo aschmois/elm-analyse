@@ -118,7 +118,7 @@ module.exports = function setup(port) {
 return module.exports;
 }
 /********** End of module 0: ./dist/app/editor/editor.js **********/
-/********** Start module 1: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/dist/app/editor/ws-client.js **********/
+/********** Start module 1: .../elm-analyse/dist/app/editor/ws-client.js **********/
 __modules[1] = function(module, exports) {
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
@@ -188,8 +188,8 @@ exports.connect = connect;
 
 return module.exports;
 }
-/********** End of module 1: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/dist/app/editor/ws-client.js **********/
-/********** Start module 2: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/dist/app/editor/elm.js **********/
+/********** End of module 1: .../elm-analyse/dist/app/editor/ws-client.js **********/
+/********** Start module 2: .../elm-analyse/dist/app/editor/elm.js **********/
 __modules[2] = function(module, exports) {
 (function(scope){
 'use strict';
@@ -3720,14 +3720,9 @@ var $elm_community$dict_extra$Dict$Extra$filterMap = F2(
 var $elm$json$Json$Decode$value = _Json_decodeValue;
 var $author$project$Analyser$Messages$Data$decodeDataValues = function (schema) {
 	return A2(
-		$elm$json$Json$Decode$andThen,
-		function (d) {
-			return $elm$json$Json$Decode$succeed(
-				A2(
-					$elm_community$dict_extra$Dict$Extra$filterMap,
-					$author$project$Analyser$Messages$Data$decodeDataValue(schema),
-					d));
-		},
+		$elm$json$Json$Decode$map,
+		$elm_community$dict_extra$Dict$Extra$filterMap(
+			$author$project$Analyser$Messages$Data$decodeDataValue(schema)),
 		$elm$json$Json$Decode$dict($elm$json$Json$Decode$value));
 };
 var $author$project$Analyser$Messages$Data$decode = function (schema) {
@@ -4311,8 +4306,8 @@ var $author$project$ASTUtil$Inspector$inspect = F3(
 			file,
 			context);
 	});
-var $author$project$Analyser$Messages$Data$addRange = F3(
-	function (k, v, _v0) {
+var $author$project$Analyser$Messages$Data$addData = F4(
+	function (f, k, v, _v0) {
 		var desc = _v0.a;
 		var d = _v0.b;
 		return A2(
@@ -4321,9 +4316,10 @@ var $author$project$Analyser$Messages$Data$addRange = F3(
 			A3(
 				$elm$core$Dict$insert,
 				k,
-				$author$project$Analyser$Messages$Data$RangeV(v),
+				f(v),
 				d));
 	});
+var $author$project$Analyser$Messages$Data$addRange = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$RangeV);
 var $elm$core$List$any = F2(
 	function (isOkay, list) {
 		any:
@@ -4411,7 +4407,7 @@ var $author$project$Analyser$Messages$Schema$schema = $author$project$Analyser$M
 var $author$project$Analyser$Checks$BooleanCase$checker = {
 	check: $author$project$Analyser$Checks$BooleanCase$scan,
 	info: {
-		description: 'If you case over a boolean value, it maybe better to use an if expression.',
+		description: 'Instead of casing over a boolean value, it may be better to use an if expression.',
 		key: 'BooleanCase',
 		name: 'Boolean Case Expression',
 		schema: A2($author$project$Analyser$Messages$Schema$rangeProp, 'range', $author$project$Analyser$Messages$Schema$schema)
@@ -4422,7 +4418,7 @@ var $author$project$Analyser$Checks$DebugCrash$entryForQualifiedExpr = F2(
 		return _Utils_eq(
 			moduleName,
 			_List_fromArray(
-				['Debug'])) ? (f === 'todo') : false;
+				['Debug'])) && (f === 'todo');
 	});
 var $author$project$Analyser$Checks$DebugCrash$onExpression = F2(
 	function (_v0, context) {
@@ -4480,7 +4476,7 @@ var $author$project$Analyser$Checks$DebugLog$entryForQualifiedExpr = F2(
 		return _Utils_eq(
 			moduleName,
 			_List_fromArray(
-				['Debug'])) ? (f === 'log') : false;
+				['Debug'])) && (f === 'log');
 	});
 var $author$project$Analyser$Checks$DebugLog$onExpression = F2(
 	function (_v0, context) {
@@ -4657,32 +4653,8 @@ var $elm$core$Basics$always = F2(
 	function (a, _v0) {
 		return a;
 	});
-var $author$project$Analyser$Messages$Data$addModuleName = F3(
-	function (k, v, _v0) {
-		var desc = _v0.a;
-		var d = _v0.b;
-		return A2(
-			$author$project$Analyser$Messages$Data$MessageData,
-			desc,
-			A3(
-				$elm$core$Dict$insert,
-				k,
-				$author$project$Analyser$Messages$Data$ModuleNameV(v),
-				d));
-	});
-var $author$project$Analyser$Messages$Data$addRanges = F3(
-	function (k, v, _v0) {
-		var desc = _v0.a;
-		var d = _v0.b;
-		return A2(
-			$author$project$Analyser$Messages$Data$MessageData,
-			desc,
-			A3(
-				$elm$core$Dict$insert,
-				k,
-				$author$project$Analyser$Messages$Data$RangeListV(v),
-				d));
-	});
+var $author$project$Analyser$Messages$Data$addModuleName = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$ModuleNameV);
+var $author$project$Analyser$Messages$Data$addRanges = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$RangeListV);
 var $author$project$Analyser$Checks$DuplicateImport$buildData = function (_v0) {
 	var m = _v0.a;
 	var rs = _v0.b;
@@ -5156,19 +5128,7 @@ var $author$project$Analyser$Checks$DuplicateImport$checker = {
 			A2($author$project$Analyser$Messages$Schema$rangeListProp, 'ranges', $author$project$Analyser$Messages$Schema$schema))
 	}
 };
-var $author$project$Analyser$Messages$Data$addVarName = F3(
-	function (k, v, _v0) {
-		var desc = _v0.a;
-		var d = _v0.b;
-		return A2(
-			$author$project$Analyser$Messages$Data$MessageData,
-			desc,
-			A3(
-				$elm$core$Dict$insert,
-				k,
-				$author$project$Analyser$Messages$Data$VariableNameV(v),
-				d));
-	});
+var $author$project$Analyser$Messages$Data$addVarName = $author$project$Analyser$Messages$Data$addData($author$project$Analyser$Messages$Data$VariableNameV);
 var $author$project$Analyser$Checks$DuplicateImportedVariable$asMessageData = function (_v0) {
 	var a = _v0.a;
 	var b = _v0.b;
@@ -5463,6 +5423,13 @@ var $author$project$Analyser$Checks$FunctionInLet$asMessage = function (_v0) {
 						$author$project$AST$Ranges$rangeToString(range)
 					]))));
 };
+var $elm$core$List$isEmpty = function (xs) {
+	if (!xs.b) {
+		return true;
+	} else {
+		return false;
+	}
+};
 var $author$project$ASTUtil$Functions$isFunctionTypeAnnotation = function (typeAnnotation) {
 	if (typeAnnotation.$ === 'FunctionTypeAnnotation') {
 		return true;
@@ -5478,7 +5445,7 @@ var $author$project$ASTUtil$Functions$isFunctionSignature = function (_v0) {
 var $elm$core$Basics$not = _Basics_not;
 var $author$project$ASTUtil$Functions$isStatic = function (_function) {
 	var decl = $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration);
-	return ($elm$core$List$length(decl._arguments) > 0) ? false : A2(
+	return $elm$core$List$isEmpty(decl._arguments) && A2(
 		$elm$core$Maybe$withDefault,
 		true,
 		A2(
@@ -6101,26 +6068,23 @@ var $author$project$Analyser$Checks$TriggerWords$buildMessage = function (_v0) {
 							$author$project$AST$Ranges$rangeToString(range)
 						])))));
 };
-var $elm$core$Maybe$andThen = F2(
-	function (callback, maybeValue) {
-		if (maybeValue.$ === 'Just') {
-			var value = maybeValue.a;
-			return callback(value);
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
-	});
 var $elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
 		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
 	});
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
+var $elm_community$maybe_extra$Maybe$Extra$join = function (mx) {
+	if (mx.$ === 'Just') {
+		var x = mx.a;
+		return x;
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
 var $author$project$Analyser$Configuration$checkPropertyAs = F4(
 	function (decoder, check, prop, _v0) {
 		var raw = _v0.a.raw;
-		return A2(
-			$elm$core$Maybe$andThen,
-			$elm$core$Basics$identity,
+		return $elm_community$maybe_extra$Maybe$Extra$join(
 			$elm$core$Result$toMaybe(
 				A2(
 					$elm$json$Json$Decode$decodeString,
@@ -6325,10 +6289,11 @@ var $author$project$Analyser$Checks$UnnecessaryListConcat$checker = {
 		schema: A2($author$project$Analyser$Messages$Schema$rangeProp, 'range', $author$project$Analyser$Messages$Schema$schema)
 	}
 };
+var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Analyser$Checks$UnnecessaryLiteralBools$onExpression = F2(
 	function (_v0, context) {
 		var r = _v0.a;
-		var inner = _v0.b;
+		var expr = _v0.b;
 		var withMsg = function (msg) {
 			return A2(
 				$elm$core$List$cons,
@@ -6341,48 +6306,92 @@ var $author$project$Analyser$Checks$UnnecessaryLiteralBools$onExpression = F2(
 							_List_fromArray(
 								[
 									msg,
-									' ',
+									' at ',
 									$author$project$AST$Ranges$rangeToString(r)
 								])))),
 				context);
 		};
-		if (((inner.$ === 'IfBlock') && (inner.b.b.$ === 'FunctionOrValue')) && (inner.c.b.$ === 'FunctionOrValue')) {
-			var _v2 = inner.a;
-			var _v3 = inner.b;
-			var _v4 = _v3.b;
-			var trueVal = _v4.b;
-			var _v5 = inner.c;
-			var _v6 = _v5.b;
-			var falseVal = _v6.b;
-			var _v7 = _Utils_Tuple2(trueVal, falseVal);
-			_v7$4:
+		var getLiteralBool = function (s) {
+			_v13$2:
 			while (true) {
-				switch (_v7.a) {
-					case 'True':
-						switch (_v7.b) {
-							case 'True':
-								return withMsg('Replace if-block with True');
-							case 'False':
-								return withMsg('Replace if-block with just the if-condition');
-							default:
-								break _v7$4;
-						}
-					case 'False':
-						switch (_v7.b) {
-							case 'True':
-								return withMsg('Replace if-block with just the negation of the if-condition');
-							case 'False':
-								return withMsg('Replace if-block with False');
-							default:
-								break _v7$4;
-						}
-					default:
-						break _v7$4;
+				if (s.$ === 'FunctionOrValue') {
+					switch (s.b) {
+						case 'True':
+							return $elm$core$Maybe$Just(true);
+						case 'False':
+							return $elm$core$Maybe$Just(false);
+						default:
+							break _v13$2;
+					}
+				} else {
+					break _v13$2;
 				}
 			}
-			return context;
-		} else {
-			return context;
+			return $elm$core$Maybe$Nothing;
+		};
+		switch (expr.$) {
+			case 'IfBlock':
+				var _v2 = expr.b;
+				var left = _v2.b;
+				var _v3 = expr.c;
+				var right = _v3.b;
+				var _v4 = _Utils_Tuple2(
+					getLiteralBool(left),
+					getLiteralBool(right));
+				if (_v4.a.$ === 'Just') {
+					if (_v4.a.a) {
+						if (_v4.b.$ === 'Just') {
+							if (_v4.b.a) {
+								return withMsg('Replace if-block with `True`');
+							} else {
+								return withMsg('Replace if-block with just the if-condition');
+							}
+						} else {
+							var _v5 = _v4.b;
+							return withMsg('Replace if-block with `<condition> || <else branch>`');
+						}
+					} else {
+						if (_v4.b.$ === 'Just') {
+							if (_v4.b.a) {
+								return withMsg('Replace if-block with just the negation of the if-condition');
+							} else {
+								return withMsg('Replace if-block with `False`');
+							}
+						} else {
+							var _v6 = _v4.b;
+							return withMsg('Replace if-block with `not <condition> && <else branch>`');
+						}
+					}
+				} else {
+					if (_v4.b.$ === 'Just') {
+						if (_v4.b.a) {
+							var _v7 = _v4.a;
+							return withMsg('Replace if-block with `not <condition> || <then branch>`');
+						} else {
+							var _v8 = _v4.a;
+							return withMsg('Replace if-block with `<condition> && <then branch>`');
+						}
+					} else {
+						var _v9 = _v4.a;
+						var _v10 = _v4.b;
+						return context;
+					}
+				}
+			case 'OperatorApplication':
+				var name = expr.a;
+				var _v11 = expr.c;
+				var left = _v11.b;
+				var _v12 = expr.d;
+				var right = _v12.b;
+				var isValidOp = (name === '==') || ((name === '/=') || ((name === '&&') || (name === '||')));
+				var hasBoolOperand = (!_Utils_eq(
+					getLiteralBool(left),
+					$elm$core$Maybe$Nothing)) || (!_Utils_eq(
+					getLiteralBool(right),
+					$elm$core$Maybe$Nothing));
+				return (isValidOp && hasBoolOperand) ? withMsg('Simplify expression involving a literal Bool value') : context;
+			default:
+				return context;
 		}
 	});
 var $author$project$Analyser$Checks$UnnecessaryLiteralBools$scan = F2(
@@ -6419,6 +6428,15 @@ var $author$project$Analyser$Checks$UnnecessaryParens$buildMessage = function (r
 						$author$project$AST$Ranges$rangeToString(r)
 					]))));
 };
+var $elm$core$Maybe$andThen = F2(
+	function (callback, maybeValue) {
+		if (maybeValue.$ === 'Just') {
+			var value = maybeValue.a;
+			return callback(value);
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
 var $elm_community$maybe_extra$Maybe$Extra$filter = F2(
 	function (f, m) {
 		var _v0 = A2($elm$core$Maybe$map, f, m);
@@ -6774,7 +6792,7 @@ var $author$project$Analyser$Checks$UnnecessaryParens$scan = F2(
 var $author$project$Analyser$Checks$UnnecessaryParens$checker = {
 	check: $author$project$Analyser$Checks$UnnecessaryParens$scan,
 	info: {
-		description: 'If you want parenthesis, then you might want to look into Lisp.',
+		description: 'If you want parentheses, then you might want to look into Lisp.',
 		key: 'UnnecessaryParens',
 		name: 'Unnecessary Parens',
 		schema: A2($author$project$Analyser$Messages$Schema$rangeProp, 'range', $author$project$Analyser$Messages$Schema$schema)
@@ -6889,25 +6907,55 @@ var $stil4m$elm_syntax$Elm$Syntax$Pattern$moduleNames = function (p) {
 			return _List_Nil;
 	}
 };
-var $author$project$Analyser$Checks$UnusedImport$onCase = F2(
+var $author$project$Analyser$Checks$UnusedImport$markPatternUsage = F2(
 	function (_v0, context) {
-		var _v1 = _v0.a;
-		var pattern = _v1.b;
+		var pattern = _v0.b;
 		return A3(
 			$elm$core$List$foldl,
 			$author$project$Analyser$Checks$UnusedImport$markUsage,
 			context,
 			$stil4m$elm_syntax$Elm$Syntax$Pattern$moduleNames(pattern));
 	});
+var $author$project$Analyser$Checks$UnusedImport$onCase = F2(
+	function (_v0, context) {
+		var pattern = _v0.a;
+		return A2($author$project$Analyser$Checks$UnusedImport$markPatternUsage, pattern, context);
+	});
 var $author$project$Analyser$Checks$UnusedImport$onExpression = F2(
 	function (expr, context) {
 		var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(expr);
-		if (_v0.$ === 'FunctionOrValue') {
-			var moduleName = _v0.a;
-			return A2($author$project$Analyser$Checks$UnusedImport$markUsage, moduleName, context);
-		} else {
-			return context;
+		switch (_v0.$) {
+			case 'FunctionOrValue':
+				var moduleName = _v0.a;
+				return A2($author$project$Analyser$Checks$UnusedImport$markUsage, moduleName, context);
+			case 'LetExpression':
+				var declarations = _v0.a.declarations;
+				return A3(
+					$elm$core$List$foldl,
+					function (_v1) {
+						var declaration = _v1.b;
+						if (declaration.$ === 'LetFunction') {
+							return $elm$core$Basics$identity;
+						} else {
+							var pattern = declaration.a;
+							return $author$project$Analyser$Checks$UnusedImport$markPatternUsage(pattern);
+						}
+					},
+					context,
+					declarations);
+			case 'LambdaExpression':
+				var lambda = _v0.a;
+				return A3($elm$core$List$foldl, $author$project$Analyser$Checks$UnusedImport$markPatternUsage, context, lambda.args);
+			default:
+				return context;
 		}
+	});
+var $author$project$Analyser$Checks$UnusedImport$onFunction = F2(
+	function (_v0, context) {
+		var declaration = _v0.b.declaration;
+		var _v1 = declaration;
+		var _arguments = _v1.b._arguments;
+		return A3($elm$core$List$foldl, $author$project$Analyser$Checks$UnusedImport$markPatternUsage, context, _arguments);
 	});
 var $author$project$Analyser$Checks$UnusedImport$onImport = F2(
 	function (_v0, context) {
@@ -6965,6 +7013,7 @@ var $author$project$Analyser$Checks$UnusedImport$scan = F2(
 								{
 									onCase: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onCase),
 									onExpression: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onExpression),
+									onFunction: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onFunction),
 									onTypeAnnotation: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UnusedImport$onTypeAnnotation)
 								}),
 							fileContext.ast,
@@ -7532,7 +7581,6 @@ var $author$project$Analyser$Checks$Variables$maskVariable = F2(
 				}()
 			});
 	});
-var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Analyser$Checks$Variables$unMaskVariable = F2(
 	function (k, context) {
 		return _Utils_update(
@@ -8679,8 +8727,169 @@ var $author$project$Analyser$Checks$UseConsOverConcat$checker = {
 		schema: A2($author$project$Analyser$Messages$Schema$rangeProp, 'range', $author$project$Analyser$Messages$Schema$schema)
 	}
 };
+var $elm$core$Tuple$mapBoth = F3(
+	function (funcA, funcB, _v0) {
+		var x = _v0.a;
+		var y = _v0.b;
+		return _Utils_Tuple2(
+			funcA(x),
+			funcB(y));
+	});
+var $elm$core$Tuple$mapFirst = F2(
+	function (func, _v0) {
+		var x = _v0.a;
+		var y = _v0.b;
+		return _Utils_Tuple2(
+			func(x),
+			y);
+	});
+var $author$project$Analyser$Checks$UseDependencyOrder$initContext = function (fileContext) {
+	var add = function (_v5) {
+		var range = _v5.a;
+		var name = _v5.b;
+		return A2($elm$core$Dict$insert, name, range);
+	};
+	var proc = function (_v4) {
+		var decl = _v4.b;
+		switch (decl.$) {
+			case 'FunctionDeclaration':
+				var f = decl.a;
+				return $elm$core$Tuple$mapSecond(
+					add(
+						$stil4m$elm_syntax$Elm$Syntax$Node$value(f.declaration).name));
+			case 'AliasDeclaration':
+				var t = decl.a;
+				var _v2 = $stil4m$elm_syntax$Elm$Syntax$Node$value(t.typeAnnotation);
+				if (_v2.$ === 'Record') {
+					return A2(
+						$elm$core$Tuple$mapBoth,
+						add(t.name),
+						add(t.name));
+				} else {
+					return $elm$core$Tuple$mapFirst(
+						add(t.name));
+				}
+			case 'CustomTypeDeclaration':
+				var t = decl.a;
+				return A2(
+					$elm$core$Tuple$mapBoth,
+					add(t.name),
+					A3(
+						$elm$core$List$foldl,
+						function (_v3) {
+							var vc = _v3.b;
+							return $elm$core$Basics$composeL(
+								add(vc.name));
+						},
+						$elm$core$Basics$identity,
+						t.constructors));
+			default:
+				return $elm$core$Basics$identity;
+		}
+	};
+	var _v0 = A3(
+		$elm$core$List$foldl,
+		proc,
+		_Utils_Tuple2($elm$core$Dict$empty, $elm$core$Dict$empty),
+		fileContext.ast.declarations);
+	var typeDecls = _v0.a;
+	var valDecls = _v0.b;
+	return {msgs: _List_Nil, typeDecls: typeDecls, valDecls: valDecls};
+};
+var $author$project$Analyser$Checks$UseDependencyOrder$withMessage = F4(
+	function (label, name, range, context) {
+		var msg = A3(
+			$author$project$Analyser$Messages$Data$addRange,
+			'range',
+			range,
+			A3(
+				$author$project$Analyser$Messages$Data$addVarName,
+				'varName',
+				name,
+				$author$project$Analyser$Messages$Data$init(
+					$elm$core$String$concat(
+						_List_fromArray(
+							[
+								label + ' `',
+								name,
+								'` used before its definition at ',
+								$author$project$AST$Ranges$rangeToString(range)
+							])))));
+		return _Utils_update(
+			context,
+			{
+				msgs: A2($elm$core$List$cons, msg, context.msgs)
+			});
+	});
+var $author$project$Analyser$Checks$UseDependencyOrder$onExpression = F2(
+	function (_v0, context) {
+		var range = _v0.a;
+		var expr = _v0.b;
+		var update = function () {
+			if ((expr.$ === 'FunctionOrValue') && (!expr.a.b)) {
+				var name = expr.b;
+				var _v2 = A2($elm$core$Dict$get, name, context.valDecls);
+				if (_v2.$ === 'Just') {
+					var loc = _v2.a;
+					return (_Utils_cmp(range.start.row, loc.start.row) < 0) ? A3($author$project$Analyser$Checks$UseDependencyOrder$withMessage, 'Value', name, range) : $elm$core$Basics$identity;
+				} else {
+					return $elm$core$Basics$identity;
+				}
+			} else {
+				return $elm$core$Basics$identity;
+			}
+		}();
+		return update(context);
+	});
+var $author$project$Analyser$Checks$UseDependencyOrder$onTypeAnnotation = F2(
+	function (_v0, context) {
+		var range = _v0.a;
+		var ann = _v0.b;
+		var update = function () {
+			if ((ann.$ === 'Typed') && (!ann.a.b.a.b)) {
+				var _v2 = ann.a;
+				var _v3 = _v2.b;
+				var name = _v3.b;
+				var _v4 = A2($elm$core$Dict$get, name, context.typeDecls);
+				if (_v4.$ === 'Just') {
+					var defRange = _v4.a;
+					return (_Utils_cmp(range.start.row, defRange.start.row) < 0) ? A3($author$project$Analyser$Checks$UseDependencyOrder$withMessage, 'Type', name, range) : $elm$core$Basics$identity;
+				} else {
+					return $elm$core$Basics$identity;
+				}
+			} else {
+				return $elm$core$Basics$identity;
+			}
+		}();
+		return update(context);
+	});
+var $author$project$Analyser$Checks$UseDependencyOrder$scan = F2(
+	function (fileContext, _v0) {
+		return A3(
+			$author$project$ASTUtil$Inspector$inspect,
+			_Utils_update(
+				$author$project$ASTUtil$Inspector$defaultConfig,
+				{
+					onExpression: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UseDependencyOrder$onExpression),
+					onTypeAnnotation: $author$project$ASTUtil$Inspector$Post($author$project$Analyser$Checks$UseDependencyOrder$onTypeAnnotation)
+				}),
+			fileContext.ast,
+			$author$project$Analyser$Checks$UseDependencyOrder$initContext(fileContext)).msgs;
+	});
+var $author$project$Analyser$Checks$UseDependencyOrder$checker = {
+	check: $author$project$Analyser$Checks$UseDependencyOrder$scan,
+	info: {
+		description: 'TODO',
+		key: 'UseDependencyOrder',
+		name: 'Use Dependency Postorder',
+		schema: A2(
+			$author$project$Analyser$Messages$Schema$rangeProp,
+			'range',
+			A2($author$project$Analyser$Messages$Schema$varProp, 'varName', $author$project$Analyser$Messages$Schema$schema))
+	}
+};
 var $author$project$Analyser$Checks$all = _List_fromArray(
-	[$author$project$Analyser$Checks$UnusedVariable$checker, $author$project$Analyser$Checks$UnusedValueConstructor$checker, $author$project$Analyser$Checks$UnusedImportedVariable$checker, $author$project$Analyser$Checks$UnusedPatternVariable$checker, $author$project$Analyser$Checks$UnusedTopLevel$checker, $author$project$Analyser$Checks$ExposeAll$checker, $author$project$Analyser$Checks$ImportAll$checker, $author$project$Analyser$Checks$NoTopLevelSignature$checker, $author$project$Analyser$Checks$UnnecessaryParens$checker, $author$project$Analyser$Checks$DebugLog$checker, $author$project$Analyser$Checks$DebugCrash$checker, $author$project$Analyser$Checks$DuplicateImport$checker, $author$project$Analyser$Checks$DuplicateImportedVariable$checker, $author$project$Analyser$Checks$UnusedTypeAlias$checker, $author$project$Analyser$Checks$NoUncurriedPrefix$checker, $author$project$Analyser$Checks$UnusedImportAlias$checker, $author$project$Analyser$Checks$UnusedImport$checker, $author$project$Analyser$Checks$UseConsOverConcat$checker, $author$project$Analyser$Checks$DropConcatOfLists$checker, $author$project$Analyser$Checks$DropConsOfItemAndList$checker, $author$project$Analyser$Checks$UnnecessaryListConcat$checker, $author$project$Analyser$Checks$MultiLineRecordFormatting$checker, $author$project$Analyser$Checks$UnnecessaryPortModule$checker, $author$project$Analyser$Checks$FunctionInLet$checker, $author$project$Analyser$Checks$SingleFieldRecord$checker, $author$project$Analyser$Checks$TriggerWords$checker, $author$project$Analyser$Checks$BooleanCase$checker, $author$project$Analyser$Checks$MapNothingToNothing$checker, $author$project$Analyser$Checks$UnnecessaryLiteralBools$checker]);
+	[$author$project$Analyser$Checks$UnusedVariable$checker, $author$project$Analyser$Checks$UnusedValueConstructor$checker, $author$project$Analyser$Checks$UnusedImportedVariable$checker, $author$project$Analyser$Checks$UnusedPatternVariable$checker, $author$project$Analyser$Checks$UnusedTopLevel$checker, $author$project$Analyser$Checks$ExposeAll$checker, $author$project$Analyser$Checks$ImportAll$checker, $author$project$Analyser$Checks$NoTopLevelSignature$checker, $author$project$Analyser$Checks$UnnecessaryParens$checker, $author$project$Analyser$Checks$DebugLog$checker, $author$project$Analyser$Checks$DebugCrash$checker, $author$project$Analyser$Checks$DuplicateImport$checker, $author$project$Analyser$Checks$DuplicateImportedVariable$checker, $author$project$Analyser$Checks$UnusedTypeAlias$checker, $author$project$Analyser$Checks$NoUncurriedPrefix$checker, $author$project$Analyser$Checks$UnusedImportAlias$checker, $author$project$Analyser$Checks$UnusedImport$checker, $author$project$Analyser$Checks$UseConsOverConcat$checker, $author$project$Analyser$Checks$DropConcatOfLists$checker, $author$project$Analyser$Checks$DropConsOfItemAndList$checker, $author$project$Analyser$Checks$UnnecessaryListConcat$checker, $author$project$Analyser$Checks$MultiLineRecordFormatting$checker, $author$project$Analyser$Checks$UnnecessaryPortModule$checker, $author$project$Analyser$Checks$FunctionInLet$checker, $author$project$Analyser$Checks$SingleFieldRecord$checker, $author$project$Analyser$Checks$TriggerWords$checker, $author$project$Analyser$Checks$BooleanCase$checker, $author$project$Analyser$Checks$MapNothingToNothing$checker, $author$project$Analyser$Checks$UnnecessaryLiteralBools$checker, $author$project$Analyser$Checks$UseDependencyOrder$checker]);
 var $author$project$Analyser$Messages$Schemas$Schemas = function (a) {
 	return {$: 'Schemas', a: a};
 };
@@ -8980,8 +9189,8 @@ _Platform_export({'Editor':{'init':$author$project$Editor$main(
 		A2($elm$json$Json$Decode$field, 'serverPort', $elm$json$Json$Decode$int)))(0)}});}(this));
 return module.exports;
 }
-/********** End of module 2: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/dist/app/editor/elm.js **********/
-/********** Start module 3: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/index.js **********/
+/********** End of module 2: .../elm-analyse/dist/app/editor/elm.js **********/
+/********** Start module 3: .../elm-analyse/node_modules/ws/index.js **********/
 __modules[3] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -9001,8 +9210,8 @@ module.exports = WebSocket;
 
 return module.exports;
 }
-/********** End of module 3: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/index.js **********/
-/********** Start module 4: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/WebSocket.js **********/
+/********** End of module 3: .../elm-analyse/node_modules/ws/index.js **********/
+/********** Start module 4: .../elm-analyse/node_modules/ws/lib/WebSocket.js **********/
 __modules[4] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -9667,8 +9876,8 @@ function initAsClient (address, protocols, options) {
 
 return module.exports;
 }
-/********** End of module 4: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/WebSocket.js **********/
-/********** Start module 5: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/WebSocketServer.js **********/
+/********** End of module 4: .../elm-analyse/node_modules/ws/lib/WebSocket.js **********/
+/********** Start module 5: .../elm-analyse/node_modules/ws/lib/WebSocketServer.js **********/
 __modules[5] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -9985,8 +10194,8 @@ function abortConnection (socket, code, message) {
 
 return module.exports;
 }
-/********** End of module 5: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/WebSocketServer.js **********/
-/********** Start module 6: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Receiver.js **********/
+/********** End of module 5: .../elm-analyse/node_modules/ws/lib/WebSocketServer.js **********/
+/********** Start module 6: .../elm-analyse/node_modules/ws/lib/Receiver.js **********/
 __modules[6] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -10539,8 +10748,8 @@ function toArrayBuffer (buf) {
 
 return module.exports;
 }
-/********** End of module 6: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Receiver.js **********/
-/********** Start module 7: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Sender.js **********/
+/********** End of module 6: .../elm-analyse/node_modules/ws/lib/Receiver.js **********/
+/********** Start module 7: .../elm-analyse/node_modules/ws/lib/Sender.js **********/
 __modules[7] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -10944,8 +11153,8 @@ function viewToBuffer (view) {
 
 return module.exports;
 }
-/********** End of module 7: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Sender.js **********/
-/********** Start module 8: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/node_modules/ultron/index.js **********/
+/********** End of module 7: .../elm-analyse/node_modules/ws/lib/Sender.js **********/
+/********** Start module 8: .../elm-analyse/node_modules/ws/node_modules/ultron/index.js **********/
 __modules[8] = function(module, exports) {
 'use strict';
 
@@ -11072,8 +11281,8 @@ module.exports = Ultron;
 
 return module.exports;
 }
-/********** End of module 8: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/node_modules/ultron/index.js **********/
-/********** Start module 9: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/PerMessageDeflate.js **********/
+/********** End of module 8: .../elm-analyse/node_modules/ws/node_modules/ultron/index.js **********/
+/********** Start module 9: .../elm-analyse/node_modules/ws/lib/PerMessageDeflate.js **********/
 __modules[9] = function(module, exports) {
 'use strict';
 
@@ -11549,8 +11758,8 @@ function inflateOnError (err) {
 
 return module.exports;
 }
-/********** End of module 9: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/PerMessageDeflate.js **********/
-/********** Start module 10: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/EventTarget.js **********/
+/********** End of module 9: .../elm-analyse/node_modules/ws/lib/PerMessageDeflate.js **********/
+/********** Start module 10: .../elm-analyse/node_modules/ws/lib/EventTarget.js **********/
 __modules[10] = function(module, exports) {
 'use strict';
 
@@ -11706,8 +11915,8 @@ module.exports = EventTarget;
 
 return module.exports;
 }
-/********** End of module 10: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/EventTarget.js **********/
-/********** Start module 11: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Extensions.js **********/
+/********** End of module 10: .../elm-analyse/node_modules/ws/lib/EventTarget.js **********/
+/********** Start module 11: .../elm-analyse/node_modules/ws/lib/Extensions.js **********/
 __modules[11] = function(module, exports) {
 'use strict';
 
@@ -11789,8 +11998,8 @@ module.exports = { format, parse };
 
 return module.exports;
 }
-/********** End of module 11: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Extensions.js **********/
-/********** Start module 12: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Constants.js **********/
+/********** End of module 11: .../elm-analyse/node_modules/ws/lib/Extensions.js **********/
+/********** Start module 12: .../elm-analyse/node_modules/ws/lib/Constants.js **********/
 __modules[12] = function(module, exports) {
 'use strict';
 
@@ -11805,8 +12014,8 @@ exports.NOOP = () => {};
 
 return module.exports;
 }
-/********** End of module 12: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Constants.js **********/
-/********** Start module 13: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/safe-buffer/index.js **********/
+/********** End of module 12: .../elm-analyse/node_modules/ws/lib/Constants.js **********/
+/********** Start module 13: .../elm-analyse/node_modules/safe-buffer/index.js **********/
 __modules[13] = function(module, exports) {
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
@@ -11868,8 +12077,8 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 return module.exports;
 }
-/********** End of module 13: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/safe-buffer/index.js **********/
-/********** Start module 14: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Validation.js **********/
+/********** End of module 13: .../elm-analyse/node_modules/safe-buffer/index.js **********/
+/********** Start module 14: .../elm-analyse/node_modules/ws/lib/Validation.js **********/
 __modules[14] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -11891,8 +12100,8 @@ try {
 
 return module.exports;
 }
-/********** End of module 14: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/Validation.js **********/
-/********** Start module 15: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/BufferUtil.js **********/
+/********** End of module 14: .../elm-analyse/node_modules/ws/lib/Validation.js **********/
+/********** Start module 15: .../elm-analyse/node_modules/ws/lib/BufferUtil.js **********/
 __modules[15] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -11967,8 +12176,8 @@ try {
 
 return module.exports;
 }
-/********** End of module 15: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/BufferUtil.js **********/
-/********** Start module 16: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/ErrorCodes.js **********/
+/********** End of module 15: .../elm-analyse/node_modules/ws/lib/BufferUtil.js **********/
+/********** Start module 16: .../elm-analyse/node_modules/ws/lib/ErrorCodes.js **********/
 __modules[16] = function(module, exports) {
 /*!
  * ws: a node.js websocket client
@@ -12001,8 +12210,8 @@ module.exports = {
 
 return module.exports;
 }
-/********** End of module 16: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/ws/lib/ErrorCodes.js **********/
-/********** Start module 17: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/async-limiter/index.js **********/
+/********** End of module 16: .../elm-analyse/node_modules/ws/lib/ErrorCodes.js **********/
+/********** Start module 17: .../elm-analyse/node_modules/async-limiter/index.js **********/
 __modules[17] = function(module, exports) {
 'use strict';
 
@@ -12074,8 +12283,8 @@ module.exports = Queue;
 
 return module.exports;
 }
-/********** End of module 17: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/async-limiter/index.js **********/
-/********** Start module 18: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/utf-8-validate/index.js **********/
+/********** End of module 17: .../elm-analyse/node_modules/async-limiter/index.js **********/
+/********** Start module 18: .../elm-analyse/node_modules/utf-8-validate/index.js **********/
 __modules[18] = function(module, exports) {
 'use strict';
 
@@ -12087,21 +12296,21 @@ try {
 
 return module.exports;
 }
-/********** End of module 18: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/utf-8-validate/index.js **********/
-/********** Start module 19: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/bufferutil/index.js **********/
+/********** End of module 18: .../elm-analyse/node_modules/utf-8-validate/index.js **********/
+/********** Start module 19: .../elm-analyse/node_modules/bufferutil/index.js **********/
 __modules[19] = function(module, exports) {
 'use strict';
 
 try {
-  module.exports = __require(20,19)('bufferutil');
+  module.exports = __require(22,19)(__getDirname("../../node_modules/bufferutil/index.js"));
 } catch (e) {
-  module.exports = __require(22,19);
+  module.exports = __require(23,19);
 }
 
 return module.exports;
 }
-/********** End of module 19: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/bufferutil/index.js **********/
-/********** Start module 20: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/bindings/bindings.js **********/
+/********** End of module 19: .../elm-analyse/node_modules/bufferutil/index.js **********/
+/********** Start module 20: .../elm-analyse/node_modules/bindings/bindings.js **********/
 __modules[20] = function(module, exports) {
 
 /**
@@ -12255,8 +12464,8 @@ exports.getRoot = function getRoot (file) {
 
 return module.exports;
 }
-/********** End of module 20: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/bindings/bindings.js **********/
-/********** Start module 21: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/utf-8-validate/fallback.js **********/
+/********** End of module 20: .../elm-analyse/node_modules/bindings/bindings.js **********/
+/********** Start module 21: .../elm-analyse/node_modules/utf-8-validate/fallback.js **********/
 __modules[21] = function(module, exports) {
 /*!
  * UTF-8 validate: UTF-8 validation for WebSockets.
@@ -12333,15 +12542,88 @@ module.exports = isValidUTF8;
 
 return module.exports;
 }
-/********** End of module 21: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/utf-8-validate/fallback.js **********/
-/********** Start module 22: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/bufferutil/fallback.js **********/
+/********** End of module 21: .../elm-analyse/node_modules/utf-8-validate/fallback.js **********/
+/********** Start module 22: .../elm-analyse/node_modules/node-gyp-build/index.js **********/
 __modules[22] = function(module, exports) {
-/*!
- * bufferutil: WebSocket buffer utils
- * Copyright(c) 2015 Einar Otto Stangvik <einaros@gmail.com>
- * MIT Licensed
- */
+var fs = require('fs')
+var path = require('path')
+var os = require('os')
+var runtimeRequire = typeof __webpack_require__ === 'function' ? __non_webpack_require__ : require // eslint-disable-line
 
+var abi = process.versions.modules // TODO: support old node where this is undef
+var runtime = isElectron() ? 'electron' : 'node'
+var arch = os.arch()
+var platform = os.platform()
+
+module.exports = load
+
+function load (dir) {
+  return runtimeRequire(load.path(dir))
+}
+
+load.path = function (dir) {
+  dir = path.resolve(dir || '.')
+
+  try {
+    var name = runtimeRequire(path.join(dir, 'package.json')).name.toUpperCase().replace(/-/g, '_')
+    if (process.env[name + '_PREBUILD']) dir = process.env[name + '_PREBUILD']
+  } catch (err) {}
+
+  var release = getFirst(path.join(dir, 'build/Release'), matchBuild)
+  if (release) return release
+
+  var debug = getFirst(path.join(dir, 'build/Debug'), matchBuild)
+  if (debug) return debug
+
+  var prebuild = getFirst(path.join(dir, 'prebuilds/' + platform + '-' + arch), matchPrebuild)
+  if (prebuild) return prebuild
+
+  var napiRuntime = getFirst(path.join(dir, 'prebuilds/' + platform + '-' + arch), matchNapiRuntime)
+  if (napiRuntime) return napiRuntime
+
+  var napi = getFirst(path.join(dir, 'prebuilds/' + platform + '-' + arch), matchNapi)
+  if (napi) return napi
+
+  throw new Error('No native build was found for runtime=' + runtime + ' abi=' + abi + ' platform=' + platform + ' arch=' + arch)
+}
+
+function getFirst (dir, filter) {
+  try {
+    var files = fs.readdirSync(dir).filter(filter)
+    return files[0] && path.join(dir, files[0])
+  } catch (err) {
+    return null
+  }
+}
+
+function matchNapiRuntime (name) {
+  return name === runtime + '-napi.node'
+}
+
+function matchNapi (name) {
+  return name === 'node-napi.node'
+}
+
+function matchPrebuild (name) {
+  var parts = name.split('-')
+  return parts[0] === runtime && parts[1] === abi + '.node'
+}
+
+function matchBuild (name) {
+  return /\.node$/.test(name)
+}
+
+function isElectron () {
+  if (process.versions && process.versions.electron) return true
+  if (process.env.ELECTRON_RUN_AS_NODE) return true
+  return typeof window !== 'undefined' && window.process && window.process.type === 'renderer'
+}
+
+return module.exports;
+}
+/********** End of module 22: .../elm-analyse/node_modules/node-gyp-build/index.js **********/
+/********** Start module 23: .../elm-analyse/node_modules/bufferutil/fallback.js **********/
+__modules[23] = function(module, exports) {
 'use strict';
 
 /**
@@ -12378,7 +12660,7 @@ module.exports = { mask, unmask };
 
 return module.exports;
 }
-/********** End of module 22: /Users/matstijl/development/repositories/github/stil4m/elm-analyse/node_modules/bufferutil/fallback.js **********/
+/********** End of module 23: .../elm-analyse/node_modules/bufferutil/fallback.js **********/
 /********** Footer **********/
 if(typeof module === "object")
 	module.exports = __require(0);
