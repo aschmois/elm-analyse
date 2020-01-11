@@ -502,9 +502,9 @@ subscriptions model =
             SourceLoadingStage stage ->
                 SourceLoadingStage.subscriptions stage |> Sub.map SourceLoadingStageMsg
 
-            Finished ->
-                Sub.none
-
             FixerStage stage ->
                 Fixer.subscriptions stage |> Sub.map FixerMsg
+
+            Finished ->
+                Sub.none
         ]
