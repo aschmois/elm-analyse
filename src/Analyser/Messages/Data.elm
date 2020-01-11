@@ -104,12 +104,7 @@ decode schema =
 decodeDataValues : Schema -> Decoder (Dict String DataValue)
 decodeDataValues schema =
     JD.dict JD.value
-        |> JD.andThen
-            (\d ->
-                d
-                    |> Dict.Extra.filterMap (decodeDataValue schema)
-                    |> JD.succeed
-            )
+        |> JD.map (Dict.Extra.filterMap (decodeDataValue schema))
 
 
 decodeDataValue : Schema -> String -> JE.Value -> Maybe DataValue
@@ -148,12 +143,7 @@ encode : MessageData -> JE.Value
 encode (MessageData desc m) =
     JE.object
         [ ( "description", JE.string desc )
-        , ( "properties"
-          , m
-                |> Dict.toList
-                |> List.map (Tuple.mapSecond encodeDataValue)
-                |> JE.object
-          )
+        , ( "properties", JE.dict identity encodeDataValue m )
         ]
 
 
@@ -184,34 +174,39 @@ init desc =
     MessageData desc Dict.empty
 
 
+addData : (a -> DataValue) -> String -> a -> MessageData -> MessageData
+addData f k v (MessageData desc d) =
+    MessageData desc (Dict.insert k (f v) d)
+
+
 addRange : String -> Range -> MessageData -> MessageData
-addRange k v (MessageData desc d) =
-    MessageData desc (Dict.insert k (RangeV v) d)
+addRange =
+    addData RangeV
 
 
 addRanges : String -> List Range -> MessageData -> MessageData
-addRanges k v (MessageData desc d) =
-    MessageData desc (Dict.insert k (RangeListV v) d)
+addRanges =
+    addData RangeListV
 
 
 addModuleName : String -> ModuleName -> MessageData -> MessageData
-addModuleName k v (MessageData desc d) =
-    MessageData desc (Dict.insert k (ModuleNameV v) d)
+addModuleName =
+    addData ModuleNameV
 
 
 addFileName : String -> String -> MessageData -> MessageData
-addFileName k v (MessageData desc d) =
-    MessageData desc (Dict.insert k (FileNameV v) d)
+addFileName =
+    addData FileNameV
 
 
 addVarName : String -> String -> MessageData -> MessageData
-addVarName k v (MessageData desc d) =
-    MessageData desc (Dict.insert k (VariableNameV v) d)
+addVarName =
+    addData VariableNameV
 
 
 addErrorMessage : String -> String -> MessageData -> MessageData
-addErrorMessage k v (MessageData desc d) =
-    MessageData desc (Dict.insert k (ErrorMessageV v) d)
+addErrorMessage =
+    addData ErrorMessageV
 
 
 getRange : String -> MessageData -> Maybe Range

@@ -31,6 +31,7 @@ import Analyser.Checks.UnusedTypeAlias as UnusedTypeAlias
 import Analyser.Checks.UnusedValueConstructor as UnusedValueConstructor
 import Analyser.Checks.UnusedVariable as UnusedVariable
 import Analyser.Checks.UseConsOverConcat as UseConsOverConcat
+import Analyser.Checks.UseDependencyOrder as UseDependencyOrder
 import Analyser.Messages.Schemas as Schemas exposing (Schemas)
 
 
@@ -70,4 +71,5 @@ all =
     , BooleanCase.checker
     , MapNothingToNothing.checker
     , UnnecessaryLiteralBools.checker
+    , UseDependencyOrder.checker
     ]

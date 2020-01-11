@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import Server from '../server/app';
 import Analyser from '../analyser';
+import { LogLevel } from '../domain';
 
 var args = minimist(process.argv.slice(2), {
     alias: {
@@ -12,10 +13,12 @@ var args = minimist(process.argv.slice(2), {
         help: 'h',
         port: 'p',
         version: 'v',
-        open: 'o'
+        open: 'o',
+        fix: 'f',
+        quiet: 'q'
     },
-    boolean: ['serve', 'help', 'version', 'open'],
-    string: ['port', 'elm-format-path', 'format']
+    boolean: ['serve', 'help', 'version', 'open', 'fix-all', 'quiet'],
+    string: ['port', 'elm-format-path', 'format', 'fix']
 });
 
 (function() {
@@ -29,7 +32,8 @@ var args = minimist(process.argv.slice(2), {
         port: args.port || 3000,
         elmFormatPath: elmFormatPath,
         format: validFormats.indexOf(args.format) != -1 ? args.format : 'human',
-        open: args.open || false
+        open: args.open || false,
+        logLevel: args.quiet ? LogLevel.ERROR : LogLevel.INFO
     };
     const info = {
         version: elmAnalyseVersion,
@@ -45,13 +49,20 @@ var args = minimist(process.argv.slice(2), {
         console.log(
             '    # Analyse the project and start a server. Allows inspection of messages through a browser (Default: http://localhost:3000).\n'
         );
+        console.log('  $ elm-analyse --fix src/Main.elm');
+        console.log('    # Fix a single file and write it back to disk.\n');
+        console.log('  $ elm-analyse --fix-all');
+        console.log('    # Fix all files in a project and write them to disk.\n');
         console.log('Options: ');
         console.log('   --help, -h          Print the help output.');
         console.log('   --serve, -s         Enable server mode. Disabled by default.');
         console.log('   --port, -p          The port on which the server should listen. Defaults to 3000.');
         console.log('   --open, -o          Open default browser when server goes live.');
+        console.log('   --quiet, -q         Print fewer log messages.');
         console.log('   --elm-format-path   Path to elm-format. Defaults to `elm-format`.');
         console.log('   --format            Output format for CLI. Defaults to "human". Options "human"|"json"');
+        console.log('   --fix, -f           Fix a file');
+        console.log('   --fix-all           Fix a whole project');
         process.exit(1);
     }
 
@@ -71,6 +82,12 @@ var args = minimist(process.argv.slice(2), {
     if (args.serve) {
         Server.start(config, info, projectFile);
         return;
+    }
+    if (args.fix) {
+        return Analyser.fix(args.fix, config, projectFile);
+    }
+    if (args['fix-all']) {
+        return Analyser.fixAll(config, projectFile);
     }
     Analyser.start(config, projectFile);
 })();

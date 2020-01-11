@@ -57,7 +57,7 @@
     "@types/request": "^2.48.3",
     "@types/ws": "^5.1.2",
     "bootstrap": "^3.4.1",
-    "bufferutil": "3.0.3",
+    "bufferutil": "^4.0.1",
     "chokidar": "^2.1.8",
     "chokidar-cli": "^2.0.0",
     "elm": "0.19.1-3",
